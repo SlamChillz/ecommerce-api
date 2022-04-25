@@ -9,6 +9,9 @@ const DATABASE = process.env.DATABASE;
 
 const URL = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOSTNAME}:${DB_PORT}/${DATABASE}?authSource=admin`;
 
+/**
+ * @param {Object} app: express applictaion instance
+ */
 const DatabaseConnection =async (app) => {
     try {
         await mongoose.connect(URL, () => {
