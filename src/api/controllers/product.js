@@ -1,5 +1,5 @@
-const { Products } = require('../models/product');
-const { validateQuery, constructQueryConditions, search } = require('../helpers/produts');
+const Products = require('../models/product');
+const { validateQuery, constructQueryConditions, search } = require('../helpers/products/produts');
 
 class Product {
     /**
@@ -49,7 +49,7 @@ class Product {
     static async oneProduct(req, res, next) {
         try {
             let product = await Products.findById(req.id);
-            return res.status(200).send(product);
+            if (product) { return res.status(200).send(product) };
         } catch (error) {
             next(error);
         }

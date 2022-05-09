@@ -65,7 +65,7 @@ exports.constructQueryConditions = async (query = {}) => {
  */
 exports.search = async (conditions = []) => {
     try {
-        const { Products } = await require("../models/product");
+        const Products = await require("../../models/product");
         let result = await Products.find({ $and: [...conditions] });
         if (result.length == 0) { result = await Products.find({ $or: [...conditions] }) };
         return result;
