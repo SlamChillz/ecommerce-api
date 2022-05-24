@@ -24,6 +24,15 @@ const Userschema = new Schema(
             type: String,
             trim: true,
         },
+        role: {
+            type: String,
+            trim: true,
+            default: 'regular',
+        },
+        refreshToken: {
+            type: String,
+            trim: true,
+        }
     },
     { timestamps: true }
 );
@@ -39,19 +48,26 @@ Userschema.pre('save', async function (next) {
     }
 });
 
+Userschema.methods.validatePassword = async function (password) {
+    let check = await bcrypt.compare(password, this.password);
+    if (!check) {
+        const { createError } = await require('../helpers/errors/errorFunc');
+        createError("Invalid credentials", 400);
+    }
+}
+
 /**
  * @param {Object} :{ oldpassword, newpassword }
  */
 Userschema.methods.changePassword = async function ({ oldPassword, newPassword }) {
     let same = await bcrypt.compare(oldPassword, this.password);
-    console.log(same);
     if (same) {
         const salt = await bcrypt.genSalt(11);
         const hashPassword = await bcrypt.hash(newPassword, salt);
         this.password = hashPassword;
     } else {
-        const { createError } = await require('../helpers/errorFunc');
-        createError("Wrong password", 422);
+        const { createError } = await require('../helpers/errors/errorFunc');
+        createError("Old password is not correct!", 422);
     }
 }
 

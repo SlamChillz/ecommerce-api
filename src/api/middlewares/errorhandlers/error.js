@@ -1,5 +1,4 @@
 /* wrong routes to api */
-
 exports.invalidRoutes = async (req, res, next) => {
     const error = new Error("Not Found");
     error.status = 404;

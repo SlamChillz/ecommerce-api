@@ -1,6 +1,6 @@
 const User = require('../../../models/user')
 const { UserCreateSchema, UserUpdateSchema } = require('./schema')
-const {createError} = require('../../errorFunc');
+const {createError} = require('../../errors/errorFunc');
 const { create } = require('../../../models/user');
 
 /**
